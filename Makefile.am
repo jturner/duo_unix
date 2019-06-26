@@ -7,6 +7,10 @@ if PAM
 SUBDIRS += pam_duo
 endif
 
+if BSD
+SUBDIRS += bsd_duo
+endif
+
 SUBDIRS += tests
 SUBDIRS += tests/unity_tests
 

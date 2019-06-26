@@ -140,6 +140,13 @@ AS_IF([test "x$with_pam" != "xno"], [
 ])
 AC_SUBST(PAMDIR, "$PAMDIR")
 
+# Enable BSD
+AC_ARG_ENABLE(bsd,
+[ --enable-bsd=[yes/no] Enable BSD support [default=no]],,
+    enable_bsd=no)
+AC_SUBST(enable_bsd)
+AM_CONDITIONAL([BSD], [ test "x$enable_bsd" != "xno" ])
+
 # Check for Duo privsep user
 case "$host" in
      *darwin*)		DUO_PRIVSEP_USER="_sshd" ;;
@@ -186,6 +193,6 @@ AC_REPLACE_FUNCS([asprintf getgrouplist strlcpy vsyslog strnlen])
 AC_SEARCH_LIBS(inet_ntoa, nsl)
 AC_SEARCH_LIBS(socket, socket)
 
-AC_CONFIG_FILES(Makefile compat/Makefile duo_unix_support/Makefile lib/Makefile lib/libduo.pc login_duo/Makefile pam_duo/Makefile tests/Makefile tests/unity_tests/Makefile tests/unity_tests/Unity-2.4.3/Makefile)
+AC_CONFIG_FILES(Makefile compat/Makefile duo_unix_support/Makefile lib/Makefile lib/libduo.pc login_duo/Makefile pam_duo/Makefile bsd_duo/Makefile tests/Makefile tests/unity_tests/Makefile tests/unity_tests/Unity-2.4.3/Makefile)
 
 AC_OUTPUT
