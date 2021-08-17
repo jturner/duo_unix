@@ -58,12 +58,10 @@ do_auth(struct login_ctx *ctx)
 {
     struct duo_config cfg;
     struct passwd *pw;
-    struct in_addr addr;
     duo_t *duo;
     duo_code_t code;
     const char *config, *p, *duouser;
-    const char *ip, *host = NULL;
-    char buf[64];
+    const char *host = NULL;
     int i, flags, ret, prompts, matched;
 
     if ((pw = getpwnam(ctx->duouser)) == NULL) {

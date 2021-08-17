@@ -56,5 +56,6 @@
 extern FILE *back;
 
 int pwd_login(char *, char *, char *, int, char *, struct passwd *);
+int login_check_expire(struct __sFILE *, struct passwd *, char *, int);
 
 #endif /* !_COMMON_H_ */
