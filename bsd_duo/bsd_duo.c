@@ -33,7 +33,7 @@
 #include "util.h"
 #include "duo.h"
 
-#define DUO_CONF        DUO_CONF_DIR "/login_duo.conf"
+#define DUO_CONF        DUO_CONF_DIR "/bsd_duo.conf"
 
 struct login_ctx {
     const char  *config;
@@ -47,13 +47,8 @@ __ini_handler(void *u, const char *section, const char *name, const char *val)
 {
     struct duo_config *cfg = (struct duo_config *)u;
     if (!duo_common_ini_handler(cfg, section, name, val)) {
-        /* Extra login_duo options */
-        if (strcmp(name, "motd") == 0) {
-            cfg->motd = duo_set_boolean_option(val);
-        } else {
-            fprintf(stderr, "Invalid login_duo option: '%s'\n", name);
-            return (0);
-        }
+        fprintf(stderr, "Invalid bsd_duo option: '%s'\n", name);
+        return (0);
     }
     return (1);
 }
@@ -166,21 +161,6 @@ do_auth(struct login_ctx *ctx)
         }
     }
 
-    /* Check for remote login host */
-    /*if ((host = ip = getenv("SSH_CONNECTION")) != NULL ||
-        (host = ip = (char *)ctx->host) != NULL) {
-        if (inet_aton(ip, &addr)) {
-            strlcpy(buf, ip, sizeof(buf));
-            ip = strtok(buf, " ");
-            host = ip;
-        } else {
-            if (cfg.local_ip_fallback) {
-                host = duo_local_ip();
-            }
-        }
-	flags |= DUO_FLAG_SYNC;
-    }*/
-
     /* Try Duo auth. */
     if ((duo = duo_open(cfg.apihost, cfg.ikey, cfg.skey,
                     "bsd_duo/" PACKAGE_VERSION,
@@ -272,11 +252,6 @@ pwd_login(char *username, char *password, char *wheel, int lastchance,
 		goodhash = pwd->pw_passwd;
 
 	setpriority(PRIO_PROCESS, 0, -4);
-
-	/*if (pledge("stdio rpath getpw dns inet flock unix tmppath", NULL) == -1) {
-		syslog(LOG_ERR, "pledge: %m");
-		return (AUTH_FAILED);
-	}*/
 
 	if (crypt_checkpass(password, goodhash) == 0)
 		passok = 1;

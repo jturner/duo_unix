@@ -13,14 +13,14 @@ install-exec-hook:
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(sysconfdir)
-	-@if [ ! -f $(DESTDIR)$(sysconfdir)/login_duo.conf ]; then \
-	  cp ../login_duo/login_duo.conf $(DESTDIR)$(sysconfdir)/login_duo.conf; \
-	  echo "Created ${DESTDIR}$(sysconfdir)/login_duo.conf"; \
+	-@if [ ! -f $(DESTDIR)$(sysconfdir)/bsd_duo.conf ]; then \
+	  cp bsd_duo.conf $(DESTDIR)$(sysconfdir)/bsd_duo.conf; \
+	  echo "Created ${DESTDIR}$(sysconfdir)/bsd_duo.conf"; \
 	  echo "Please edit it to add your Duo integration and secret keys"; \
 	else \
-	  echo "Found existing ${DESTDIR}$(sysconfdir)/login_duo.conf - updating permissions"; \
+	  echo "Found existing ${DESTDIR}$(sysconfdir)/bsd_duo.conf - updating permissions"; \
 	fi
-	-chown $(DUO_PRIVSEP_USER) $(DESTDIR)$(sysconfdir)/login_duo.conf
-	-chmod 600 $(DESTDIR)$(sysconfdir)/login_duo.conf
+	-chown $(DUO_PRIVSEP_USER) $(DESTDIR)$(sysconfdir)/bsd_duo.conf
+	-chmod 600 $(DESTDIR)$(sysconfdir)/bsd_duo.conf
 
-EXTRA_DIST = login_duo.conf
+EXTRA_DIST = bsd_duo.conf
